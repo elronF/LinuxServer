@@ -28,7 +28,7 @@
 * Timezone to UTC
 	* ```sudo dpkg-reconfigure tzdata```
 
-* Securing Server
+## Securing Server
 
 * Change the SSH port from 22 to 2200.
 	* ```sudo -i```
@@ -62,7 +62,6 @@
 
 * Create user named grader
 	* ```sudo adduser grader```
-	* pw: grader123 
 
 * Give grader permission to sudo by adding to the sudoers.d folder
 	* ```sudo touch /etc/sudoers.d/grader```
@@ -95,30 +94,55 @@
 		* Logout as grader and log back in to the server from your local machine:
 			* ```ssh grader@34.221.148.34 -p 2200 -i ~/.ssh/id_rsa```
 
-## POSTGRESQL SETUP
+## Install Packages Needed to Serve Web App
 
-Install postgres: 
+Python3 Modules:
+	```sudo apt-get install python3-dev```
+	```sudo apt-get install python3-flask```
+	```sudo apt-get install python3-sqlalchemy```
+	```sudo apt-get install python3-psycopg2```
+
+Apache2 and WSGI:
+	* ```sudo apt-get install apache2```
+	* ```sudo apt-get install libapache2-mod-wsgi-py3```
+	* Enable wsgi: ```sudo a2enmod wsgi``` 
+
+## Clone Webapp
+
+Create directory for the app in /var/www:
+		* ```sudo mkdir AcctTracker```
+
+Clone App:
+	Within the /var/www/ directory clone the app:
+		* ```sudo git clone https://github.com/elronF/WebAppProject.git acctTracker```
+		* In the directory /var/www/acctTracker/acctTracker, rename the ```app.py``` file to ```__init.py__```
+
+## Install and Configure PostgreSQL
+
+Get postgres package: 
 	* ```sudo apt-get install postgresql postgresql-contrib```
 
-Set postgres to accept no remote connections
+Check that postgres accepts no remote connections:
 	* ```sudo nano /etc/postgresql/9.5/main/pg_hba.conf``` 
-	```This is set as local connections only by default```
+	* ```This is set as local connections only by default```
 
-Change to admin user "postgres" and open psql
+Change to admin user "postgres" and open psql:
 	* ```sudo su - postgres```
 	* ```psql```
 
-Create a new database user named catalog
-	* ```CREATE USER catalog;```
-	* ```ALTER USER catalog CREATEDB;```
+Create a new database user named catalog:
+	* ```CREATE ROLE catalog WITH LOGIN PASSWORD 'catpass';```
+	* ```ALTER ROLE catalog CREATEDB;```
 	
-Create a new database called catalog
+Create a new database called catalog:
 	* ```CREATE DATABASE catalog WITH OWNER catalog;```
 
-## INSTALLING AND CONFIGURING PYTHON WEB APP
+Setup DB data structure and populate DB:
+	* Within the /var/www/acctTracker/accTracker directory:
+		* ```python3 db_setup.py```
+		* ```python3 initialDBdata.py```
+		* Delete these files after double checking that the DB has been properly setup with appropriate initial data.
 
-Install mod-wsgi
-	* ```sudo apt-get install libapache2-mod-wsgi-py3```
 
 ## APACHE SETUP
 
@@ -129,3 +153,4 @@ Install mod-wsgi
 ## Resources Used:
 
 ```https://www.linode.com/docs/security/firewalls/configure-firewall-with-ufw/```
+```https://help.ubuntu.com/community/SSH/OpenSSH/Keys```
