@@ -8,81 +8,81 @@
 
 ## SSH from Local Machine
 
-### Logged into Amazon Lightsail, download the default keypair from the 'SSH keys' sub-menu found within the 'Account' menu
+* Logged into Amazon Lightsail, download the default keypair from the 'SSH keys' sub-menu found within the 'Account' menu
 
-### Move LightsailDefaultKey-us-west-2.pem into the `~/.ssh` folder on your linux machine and rename it to lightsail_key.rsa:
+* Move LightsailDefaultKey-us-west-2.pem into the `~/.ssh` folder on your linux machine and rename it to lightsail_key.rsa:
 	* ```mv LightsailDefaultKey-us-west-2.pem lightsail_key.rsa```
 
-### Give owner read and write permissions over lightsail_key.rsa file:
+* Give owner read and write permissions over lightsail_key.rsa file:
 	* ```chmod 600 lightsail_key.rsa```
 
-### SSH into server on your local linux terminal:
+* SSH into server on your local linux terminal:
 	* ```ssh -i ~/.ssh/lightsail_key.rsa -p 22 ubuntu@34.221.148.34```
 
 ## Basic Setup
 
-### Update all currently installed packages:
-	* ```sudo apt-get update```
-	* ```sudo apt-get dist-upgrade```
+* Update all currently installed packages:
+	```sudo apt-get update```
+	```sudo apt-get dist-upgrade```
 
-### Timezone to UTC
-	* ```sudo dpkg-reconfigure tzdata```
+* Timezone to UTC
+	``` * sudo dpkg-reconfigure tzdata```
 
-## Securing Server
+* Securing Server
 
-### Change the SSH port from 22 to 2200.
-	* ```sudo -i```
-	* ```nano /etc/ssh/sshd_config```
+* Change the SSH port from 22 to 2200.
+	``` * sudo -i```
+	``` * nano /etc/ssh/sshd_config```
 
-### Configure UFW to allow ports 2200, 123 and 80
-	* ```sudo ufw default allow outgoing```
-	* ```sudo ufw default deny incoming```
-	* ```sudo ufw app list```
-	* ```sudo ufw allow 2200```
-	* ```sudo ufw allow 2200/tcp```
-	* ```sudo ufw allow 80/tcp```
-	* ```sudo ufw allow 123/udp```
-	* ```sudo ufw enable```
+* Configure UFW to allow ports 2200, 123 and 80
+	``` * sudo ufw default allow outgoing```
+	``` * sudo ufw default deny incoming```
+	``` * sudo ufw app list```
+	``` * sudo ufw allow 2200```
+	``` * sudo ufw allow 2200/tcp```
+	``` * sudo ufw allow 80/tcp```
+	``` * sudo ufw allow 123/udp```
+	``` * sudo ufw enable```
 
-### Check status of UFW
-	* ```sudo ufw status```
+* Check status of UFW
+	``` * sudo ufw status```
 
-### Restart UFW and SSH services
-	* ```sudo service ufw restart```
-	* ```sudo systemctl reload sshd```
-	* ```sudo service ssh restart```
+* Restart UFW and SSH services
+	``` * sudo service ufw restart```
+	``` * sudo systemctl reload sshd```
+	``` * sudo service ssh restart```
 
-### Exit and SSH back in to the server via port 2200:
-	* ```ssh -i ~/.ssh/lightsail_key.rsa -p 2200 ubuntu@34.221.148.34```
+* Exit and SSH back in to the server via port 2200:
+	``` * ssh -i ~/.ssh/lightsail_key.rsa -p 2200 ubuntu@34.221.148.34```
 
 ## Add and configure 'grader' user
 
-### Change to root user
-	* ```sudo -i```
+* Change to root user
+	``` * sudo -i```
 
-### Create user named grader
-	* ```sudo adduser grader```
+* Create user named grader
+	``` * sudo adduser grader```
 	* pw: grader123 
 
-### Give grader permission to sudo by adding to the sudoers.d folder
-	* ```sudo touch /etc/sudoers.d/grader```
-	* ```sudo nano /etc/sudoers.d/grader```
+* Give grader permission to sudo by adding to the sudoers.d folder
+	``` * sudo touch /etc/sudoers.d/grader```
+	``` * sudo nano /etc/sudoers.d/grader```
 	Enter the following into the grader file then save and write changes:
-	* ```grader ALL=(ALL:ALL) NOPASSWD:ALL```
+	``` * grader ALL=(ALL:ALL) NOPASSWD:ALL```
 
-### Confirm sudo permissions:
-	* ```sudo -l```
+* Confirm sudo permissions:
+	``` * sudo -l```
 	
 	* Console should return a statement like this:
-		* ```User grader may run the following commands on ip-XXX-XX-X-XX.us-west-2.compute.internal: (ALL : ALL) NOPASSWD: ALL```
+		``` * User grader may run the following commands on ip-XXX-XX-X-XX.us-west-2.compute.internal: (ALL : ALL) NOPASSWD: ALL```
 
-### Create an SSH key pair on Local Machine
+* Create an SSH key pair on Local Machine
 	* The SSH keypair must be generated locally or we cannot claim the private key has always been private. On your local linux-based machine:
 		* Type ```ssh-keygen``` into the console
 		* Read out contents of the public key file: ```cat ~/.ssh/id_rsa.pub```
 		* Copy the contents of the public key file.
 
-### Install Public Key on Server
+* Install Public Key on Server
 	* On the Amazon Lightsail linux instance:
 		* Switch to grader user: 
 			* ```su - grader```
