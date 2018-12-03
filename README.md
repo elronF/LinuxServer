@@ -96,48 +96,48 @@
 
 ## Install Packages Needed to Serve Web App
 
-Python3 Modules:
-	```sudo apt-get install python3-dev```
-	```sudo apt-get install python3-flask```
-	```sudo apt-get install python3-sqlalchemy```
-	```sudo apt-get install python3-psycopg2```
+* Python3 Modules:
+	* ```sudo apt-get install python3-dev```
+	* ```sudo apt-get install python3-flask```
+	* ```sudo apt-get install python3-sqlalchemy```
+	* ```sudo apt-get install python3-psycopg2```
 
-Apache2 and WSGI:
+* Apache2 and WSGI:
 	* ```sudo apt-get install apache2```
 	* ```sudo apt-get install libapache2-mod-wsgi-py3```
 	* Enable wsgi: ```sudo a2enmod wsgi``` 
 
 ## Clone Webapp
 
-Create directory for the app in /var/www:
+* Create directory for the app in /var/www:
 		* ```sudo mkdir AcctTracker```
 
-Clone App:
-	Within the /var/www/ directory clone the app:
+* Clone App:
+	* Within the /var/www/ directory clone the app:
 		* ```sudo git clone https://github.com/elronF/WebAppProject.git acctTracker```
 		* In the directory /var/www/acctTracker/acctTracker, rename the ```app.py``` file to ```__init.py__```
 
 ## Install and Configure PostgreSQL
 
-Get postgres package: 
+* Get postgres package: 
 	* ```sudo apt-get install postgresql postgresql-contrib```
 
-Check that postgres accepts no remote connections:
+* Check that postgres accepts no remote connections:
 	* ```sudo nano /etc/postgresql/9.5/main/pg_hba.conf``` 
 	* ```This is set as local connections only by default```
 
-Change to admin user "postgres" and open psql:
+* Change to admin user "postgres" and open psql:
 	* ```sudo su - postgres```
 	* ```psql```
 
-Create a new database user named catalog:
+* Create a new database user named catalog:
 	* ```CREATE ROLE catalog WITH LOGIN PASSWORD 'catpass';```
 	* ```ALTER ROLE catalog CREATEDB;```
 	
-Create a new database called catalog:
+* Create a new database called catalog:
 	* ```CREATE DATABASE catalog WITH OWNER catalog;```
 
-Setup DB data structure and populate DB:
+* Setup DB data structure and populate DB:
 	* Within the /var/www/acctTracker/accTracker directory:
 		* ```python3 db_setup.py```
 		* ```python3 initialDBdata.py```
