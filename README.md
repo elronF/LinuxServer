@@ -22,59 +22,59 @@
 ## Basic Setup
 
 * Update all currently installed packages:
-	```sudo apt-get update```
-	```sudo apt-get dist-upgrade```
+	* ```sudo apt-get update```
+	* ```sudo apt-get dist-upgrade```
 
 * Timezone to UTC
-	``` * sudo dpkg-reconfigure tzdata```
+	* ```sudo dpkg-reconfigure tzdata```
 
 * Securing Server
 
 * Change the SSH port from 22 to 2200.
-	``` * sudo -i```
-	``` * nano /etc/ssh/sshd_config```
+	* ```sudo -i```
+	* ```nano /etc/ssh/sshd_config```
 
 * Configure UFW to allow ports 2200, 123 and 80
-	``` * sudo ufw default allow outgoing```
-	``` * sudo ufw default deny incoming```
-	``` * sudo ufw app list```
-	``` * sudo ufw allow 2200```
-	``` * sudo ufw allow 2200/tcp```
-	``` * sudo ufw allow 80/tcp```
-	``` * sudo ufw allow 123/udp```
-	``` * sudo ufw enable```
+	* ```sudo ufw default allow outgoing```
+	* ```sudo ufw default deny incoming```
+	* ```sudo ufw app list```
+	* ```sudo ufw allow 2200```
+	* ```sudo ufw allow 2200/tcp```
+	* ```sudo ufw allow 80/tcp```
+	* ```sudo ufw allow 123/udp```
+	* ```sudo ufw enable```
 
 * Check status of UFW
-	``` * sudo ufw status```
+	* ```sudo ufw status```
 
 * Restart UFW and SSH services
-	``` * sudo service ufw restart```
-	``` * sudo systemctl reload sshd```
-	``` * sudo service ssh restart```
+	* ```sudo service ufw restart```
+	* ```sudo systemctl reload sshd```
+	* ```sudo service ssh restart```
 
 * Exit and SSH back in to the server via port 2200:
-	``` * ssh -i ~/.ssh/lightsail_key.rsa -p 2200 ubuntu@34.221.148.34```
+	* ```ssh -i ~/.ssh/lightsail_key.rsa -p 2200 ubuntu@34.221.148.34```
 
 ## Add and configure 'grader' user
 
 * Change to root user
-	``` * sudo -i```
+	* ```sudo -i```
 
 * Create user named grader
-	``` * sudo adduser grader```
+	* ```sudo adduser grader```
 	* pw: grader123 
 
 * Give grader permission to sudo by adding to the sudoers.d folder
-	``` * sudo touch /etc/sudoers.d/grader```
-	``` * sudo nano /etc/sudoers.d/grader```
+	* ```sudo touch /etc/sudoers.d/grader```
+	* ```sudo nano /etc/sudoers.d/grader```
 	Enter the following into the grader file then save and write changes:
-	``` * grader ALL=(ALL:ALL) NOPASSWD:ALL```
+	* ```grader ALL=(ALL:ALL) NOPASSWD:ALL```
 
 * Confirm sudo permissions:
-	``` * sudo -l```
+	* ```sudo -l```
 	
 	* Console should return a statement like this:
-		``` * User grader may run the following commands on ip-XXX-XX-X-XX.us-west-2.compute.internal: (ALL : ALL) NOPASSWD: ALL```
+		* ```User grader may run the following commands on ip-XXX-XX-X-XX.us-west-2.compute.internal: (ALL : ALL) NOPASSWD: ALL```
 
 * Create an SSH key pair on Local Machine
 	* The SSH keypair must be generated locally or we cannot claim the private key has always been private. On your local linux-based machine:
@@ -98,27 +98,27 @@
 ## POSTGRESQL SETUP
 
 Install postgres: 
-	```sudo apt-get install postgresql postgresql-contrib```
+	* ```sudo apt-get install postgresql postgresql-contrib```
 
 Set postgres to accept no remote connections
-	```sudo nano /etc/postgresql/9.5/main/pg_hba.conf``` 
+	* ```sudo nano /etc/postgresql/9.5/main/pg_hba.conf``` 
 	```This is set as local connections only by default```
 
 Change to admin user "postgres" and open psql
-	```sudo su - postgres```
-	```psql```
+	* ```sudo su - postgres```
+	* ```psql```
 
 Create a new database user named catalog
-	```CREATE USER catalog;```
-	```ALTER USER catalog CREATEDB;```
+	* ```CREATE USER catalog;```
+	* ```ALTER USER catalog CREATEDB;```
 	
 Create a new database called catalog
-	```CREATE DATABASE catalog WITH OWNER catalog;```
+	* ```CREATE DATABASE catalog WITH OWNER catalog;```
 
 ## INSTALLING AND CONFIGURING PYTHON WEB APP
 
 Install mod-wsgi
-	```sudo apt-get install libapache2-mod-wsgi-py3```
+	* ```sudo apt-get install libapache2-mod-wsgi-py3```
 
 ## APACHE SETUP
 
