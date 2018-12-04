@@ -185,6 +185,7 @@
 
 ```https://www.linode.com/docs/security/firewalls/configure-firewall-with-ufw/```
 ```https://help.ubuntu.com/community/SSH/OpenSSH/Keys```
+```https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps```
 
 ## Issues Encountered
 
