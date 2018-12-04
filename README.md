@@ -107,15 +107,52 @@
 	* ```sudo apt-get install libapache2-mod-wsgi-py3```
 	* Enable wsgi: ```sudo a2enmod wsgi``` 
 
-## Clone Webapp
+## Setup Webapp and Environment
 
 * Create directory for the app in /var/www:
-		* ```sudo mkdir AcctTracker```
+	* ```sudo mkdir AcctTracker```
 
 * Clone App:
 	* Within the /var/www/ directory clone the app:
 		* ```sudo git clone https://github.com/elronF/WebAppProject.git acctTracker```
 		* In the directory /var/www/acctTracker/acctTracker, rename the ```app.py``` file to ```__init.py__```
+
+* Install dependencies with pip3:
+	* ```pip3 install pysocks```
+	* ```pip3 install --upgrade oauth2client```
+
+* Create an apache config file for acctTracker:
+	* ```sudo nano /etc/apache2/sites-available/acctTracker.conf```
+	* Populate with following:
+	* ```
+		<VirtualHost *:80>
+		        ServerName ec2-34-221-148-34.us-west-2.compute.amazonaws.com
+		        ServerAdmin lflearns@gmail.com
+		        WSGIScriptAlias / /var/www/acctTracker/acctTracker.wsgi
+		        <Directory /var/www/acctTracker/acctTracker/>
+		                Order allow,deny
+		                Allow from all
+		        </Directory>
+		        Alias /static /var/www/acctTracker/acctTracker/static
+		        <Directory /var/www/acctTracker/acctTracker/static/>
+		                Order allow,deny
+		                Allow from all
+		        </Directory>
+		        Alias /templates /var/www/acctTracker/acctTracker/templates
+		        <Directory /var/www/acctTracker/acctTracker/templates/>
+		                Order allow,deny
+		                Allow from all
+		        </Directory>
+		        ErrorLog ${APACHE_LOG_DIR}/error.log
+		        LogLevel warn
+		        CustomLog ${APACHE_LOG_DIR}/access.log combined
+		</VirtualHost>
+```
+
+```sudo a2dissite 000-default.conf```
+```sudo a2ensite acctTracker```
+```service apache2 reload```
+Check for errors: ```sudo tail /var/log/apache2/error.log```
 
 ## Install and Configure PostgreSQL
 
@@ -143,14 +180,17 @@
 		* ```python3 initialDBdata.py```
 		* Delete these files after double checking that the DB has been properly setup with appropriate initial data.
 
-
-## APACHE SETUP
-
-## Configure Virtual Host for Web App
-
-## Create .WSGI File
-
 ## Resources Used:
 
 ```https://www.linode.com/docs/security/firewalls/configure-firewall-with-ufw/```
 ```https://help.ubuntu.com/community/SSH/OpenSSH/Keys```
+
+## Issues Encountered
+
+* Google sign in button wouldn't render
+	* Solution: disable uBlock origin when using the web app. It doesn't like google originated scripts.
+
+*  oauth2client.clientsecrets.InvalidClientSecretsError: ('Error opening file', 'client_secrets.json', 'No such file or directory', 2)
+	* Solution: Need to specify the exact path to the client_secrets.json within the main app code.
+		* e.g. ```CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']``` was changed to
+		```CLIENT_ID = json.loads(open('/var/www/acctTracker/acctTracker/client_secrets.json', 'r').read())['web']['client_id']
