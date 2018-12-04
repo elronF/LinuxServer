@@ -124,8 +124,7 @@
 * Create an apache config file for acctTracker:
 	* ```sudo nano /etc/apache2/sites-available/acctTracker.conf```
 	* Populate with following:
-	* ```
-		<VirtualHost *:80>
+	* ```<VirtualHost *:80>
 		        ServerName ec2-34-221-148-34.us-west-2.compute.amazonaws.com
 		        ServerAdmin lflearns@gmail.com
 		        WSGIScriptAlias / /var/www/acctTracker/acctTracker.wsgi
@@ -146,13 +145,13 @@
 		        ErrorLog ${APACHE_LOG_DIR}/error.log
 		        LogLevel warn
 		        CustomLog ${APACHE_LOG_DIR}/access.log combined
-		</VirtualHost>
-```
+		</VirtualHost>```
 
-```sudo a2dissite 000-default.conf```
-```sudo a2ensite acctTracker```
-```service apache2 reload```
-Check for errors: ```sudo tail /var/log/apache2/error.log```
+* Disable Apache's default site:
+	* ```sudo a2dissite 000-default.conf```
+* Enable your app:
+	* ```sudo a2ensite acctTracker```
+	* ```service apache2 reload```
 
 ## Install and Configure PostgreSQL
 
