@@ -6,6 +6,11 @@
 
 * The primary technologies used are Apache, Python and PostgreSQL.
 
+## Server details
+* IP Address: 34.221.148.34
+* SSH Port: 2200
+* Address: http://34.221.148.34.xip.io/
+
 ## SSH from Local Machine
 
 * Logged into Amazon Lightsail, download the default keypair from the 'SSH keys' sub-menu found within the 'Account' menu
