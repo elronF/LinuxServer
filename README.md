@@ -200,4 +200,13 @@
 *  oauth2client.clientsecrets.InvalidClientSecretsError: ('Error opening file', 'client_secrets.json', 'No such file or directory', 2)
 	* Solution: Need to specify the exact path to the client_secrets.json within the main app code.
 		* e.g. ```CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']``` was changed to
-		```CLIENT_ID = json.loads(open('/var/www/acctTracker/acctTracker/client_secrets.json', 'r').read())['web']['client_id']
+		```CLIENT_ID = json.loads(open('/var/www/acctTracker/acctTracker/client_secrets.json', 'r').read())['web']['client_id']```
+
+## Changes Required After Review
+
+* Ensured root login couldn't occur remotely:
+	* ```sudo nano /etc/ssh/sshd_config```
+	* Edited the line ```PermitRootLogin prohibit-password``` to be ```PermitRootLogin no```
+
+* Updated all system packages and enabled "unattended-upgrades" package:
+	* ```sudo dpkg-reconfigure --priority=low unattended-upgrades```
